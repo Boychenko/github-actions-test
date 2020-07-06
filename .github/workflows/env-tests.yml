@@ -12,8 +12,8 @@ on:
 
 env:
   BUILD_TYPE: TEST
-  AKS_CLUSTER_NAME: ${{ env.BUILD_TYPE }}
-  AKS_CLUSTER_RESOURCE_GROUP: kubernetes-${{ env.BUILD_TYPE }}
+  AKS_CLUSTER_NAME: ${{ BUILD_TYPE }}
+  AKS_CLUSTER_RESOURCE_GROUP: kubernetes-${{ BUILD_TYPE }}
 
 jobs:
   build:
