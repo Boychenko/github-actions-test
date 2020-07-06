@@ -17,10 +17,10 @@ jobs:
     steps:
       - name: Set production build type
         if: endsWith(github.ref, '/master')
-        run: echo "::set-env name=BUILD_TYPE::production
+        run: echo "::set-env name=BUILD_TYPE::production"
       - name: Set staging build type
         if: endsWith(github.ref, '/develop')
-        run: echo "::set-env name=BUILD_TYPE::staging
+        run: echo "::set-env name=BUILD_TYPE::staging"
       - name: Env variables
         run: |
           echo "::set-env name=AKS_CLUSTER_RESOURCE_GROUP::kubernetes-${{ env.BUILD_TYPE }}
