@@ -28,7 +28,7 @@ jobs:
       - name: PRINT
         run: echo ${{ github.ref }}
       - name: PRINT2
-        run: echo ${{ env.AKS_CLUSTER_RESOURCE_GROUP }} ${{ env.BUILD_TYPE }}
+        run: echo ${{ env.AKS_CLUSTER_RESOURCE_GROUP }} ${{ env.AKS_CLUSTER_NAME }}
       - name: out
         run: |
           echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::${{ env.AKS_CLUSTER_RESOURCE_GROUP }}"
@@ -42,4 +42,6 @@ jobs:
         run: echo ${{ github.ref }}
       - name: PRINT2
         run: echo ${{ needs.envjob.steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.steps.out.outputs.BUILD_TYPE }}
+      - name: PRINT 3
+        run: echo ${{ toJson(needs.envjob) }}
 
