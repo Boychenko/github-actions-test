@@ -31,9 +31,9 @@ jobs:
         run: echo ${{ env.AKS_CLUSTER_RESOURCE_GROUP }} ${{ env.AKS_CLUSTER_NAME }}
       - name: out
         run: |
+          echo "::set-output name=AKS_CLUSTER_NAME::${{ env.AKS_CLUSTER_NAME }}"
           echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::${{ env.AKS_CLUSTER_RESOURCE_GROUP }}"
           echo "::set-output name=BUILD_TYPE::${{ env.BUILD_TYPE }}"
-          echo "::set-output name=AKS_CLUSTER_NAME::${{ env.AKS_CLUSTER_NAME }}"
   build:
     needs: envjob
     runs-on: ubuntu-latest
