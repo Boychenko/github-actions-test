@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - name: Set production build type
-        if: endWith('github.ref', '/master')
+        if: endsWith(github.ref, '/master')
         run: echo "::set-env name=BUILD_TYPE::production
       - name: Set staging build type
-        if: endWith('github.ref', '/develop')
+        if: endsWith(github.ref, '/develop')
         run: echo "::set-env name=BUILD_TYPE::staging
       - name: Env variables
         run: |
