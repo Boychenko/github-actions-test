@@ -31,10 +31,7 @@ jobs:
       - name: PRINT2
         run: echo $AKS_CLUSTER_RESOURCE_GROUP $AKS_CLUSTER_NAME
       - name: out
-        run: |
-          echo "::set-output name=AKS_CLUSTER_NAME::$AKS_CLUSTER_NAME"
-          echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::$AKS_CLUSTER_RESOURCE_GROUP"
-          echo "::set-output name=BUILD_TYPE::$BUILD_TYPE"
+        run: echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::$AKS_CLUSTER_RESOURCE_GROUP"
   build:
     needs: envjob
     runs-on: ubuntu-latest
@@ -45,6 +42,6 @@ jobs:
         run: echo ${{ needs.envjob.steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.steps.out.outputs.BUILD_TYPE }}
       - name: PRINT 3
         env: 
-          JOB_OUT: ${{ toJson(jobs.envjob) }}
+          JOB_OUT: ${{ toJson(needs.envjob) }}
         run: echo "$JOB_OUT"
 
