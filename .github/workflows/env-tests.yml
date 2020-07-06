@@ -69,15 +69,15 @@ jobs:
 
   build:
     needs: envjob
-    strategy:
-      matrix:
-        path: ${{ needs.envjob.outputs.PATHES }}
+    # strategy:
+    #   matrix:
+    #     path: ${{ needs.envjob.outputs.PATHES }}
     runs-on: ubuntu-latest
     steps:
       - name: PRINT 1
         run: echo ${{ github.ref }}
-      - name: PRINT2
-        run: echo ${{ matrix.path }}
+      # - name: PRINT2
+      #   run: echo ${{ matrix.path }}
       - name: PRINT3
         run: echo ${{ needs.envjob.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.outputs.BUILD_TYPE }}
       - name: PRINT 4
