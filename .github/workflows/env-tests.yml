@@ -23,8 +23,8 @@ jobs:
         run: echo "::set-env name=BUILD_TYPE::staging"
       - name: Env variables
         run: |
-          echo "::set-env name=AKS_CLUSTER_RESOURCE_GROUP::kubernetes-${{ env.BUILD_TYPE }}
           echo "::set-env name=AKS_CLUSTER_NAME::${{ env.BUILD_TYPE }}
+          echo "::set-env name=AKS_CLUSTER_RESOURCE_GROUP::kubernetes-${{ env.BUILD_TYPE }}
       - name: PRINT
         run: echo ${{ github.ref }}
       - name: PRINT2
@@ -43,5 +43,7 @@ jobs:
       - name: PRINT2
         run: echo ${{ needs.envjob.steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.steps.out.outputs.BUILD_TYPE }}
       - name: PRINT 3
-        run: echo ${{ toJson(needs.envjob) }}
+        env: 
+          JOB_OUT: ${{ toJson(needs.envjob) }}
+        run: echo "$JOB_OUT"
 
