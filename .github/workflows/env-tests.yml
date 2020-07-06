@@ -13,7 +13,10 @@ on:
 jobs:
   envjob:
     runs-on: ubuntu-latest
-
+    outputs:
+      AKS_CLUSTER_NAME: ${{ steps.out.outputs.AKS_CLUSTER_NAME }}
+      AKS_CLUSTER_RESOURCE_GROUP: ${{ steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }}
+      BUILD_TYPE: ${{ steps.out.outputs.BUILD_TYPE }}
     steps:
       - name: Set production build type
         if: endsWith(github.ref, '/master')
@@ -31,7 +34,10 @@ jobs:
       - name: PRINT2
         run: echo $AKS_CLUSTER_RESOURCE_GROUP $AKS_CLUSTER_NAME
       - name: out
-        run: echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::$AKS_CLUSTER_RESOURCE_GROUP"
+        run: |
+          echo "::set-output name=AKS_CLUSTER_NAME::$AKS_CLUSTER_NAME"
+          echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::$AKS_CLUSTER_RESOURCE_GROUP"
+          echo "::set-output name=BUILD_TYPE::$BUILD_TYPE"
   build:
     needs: envjob
     runs-on: ubuntu-latest
@@ -39,7 +45,7 @@ jobs:
       - name: PRINT
         run: echo ${{ github.ref }}
       - name: PRINT2
-        run: echo ${{ needs.envjob.steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.steps.out.outputs.BUILD_TYPE }}
+        run: echo ${{ needs.envjob.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.outputs.BUILD_TYPE }}
       - name: PRINT 3
         env: 
           JOB_OUT: ${{ toJson(needs.envjob) }}
