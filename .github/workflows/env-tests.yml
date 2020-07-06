@@ -22,6 +22,8 @@ jobs:
         env:
           EVENT: ${{ toJson(github.event) }}
         run: echo "$EVENT"
+      - name: Checkout source
+        uses: actions/checkout@v2
       - uses: dorny/paths-filter@v2.2.0
         id: filter
         with:
