@@ -79,6 +79,8 @@ jobs:
     steps:
       - name: PRINT 1
         run: echo ${{ github.ref }}
+      - name: PRINT 2
+        run: echo ${{ matrix.basePath }}, ${{ matrix.appName }}
       - name: Dump matrix context
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
