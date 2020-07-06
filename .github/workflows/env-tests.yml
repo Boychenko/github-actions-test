@@ -17,7 +17,8 @@ jobs:
       AKS_CLUSTER_NAME: ${{ steps.out.outputs.AKS_CLUSTER_NAME }}
       AKS_CLUSTER_RESOURCE_GROUP: ${{ steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }}
       BUILD_TYPE: ${{ steps.out.outputs.BUILD_TYPE }}
-      MATRIX: ${{ steps.matrix.outputs.MATRIX }}
+      # MATRIX: ${{ steps.matrix.outputs.MATRIX }}
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: PRINT
         env:
@@ -47,7 +48,10 @@ jobs:
             matrix+="{\"basePath\": \"srcApp2/\", \"appName\":\"app2\"}"
           fi
           matrix+="]"
+          echo ${matrix}
           echo ::set-output name=MATRIX::${matrix}
+      - id: set-matrix
+        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
       - name: Set production build type
         if: endsWith(github.ref, '/master')
         run: echo "::set-env name=BUILD_TYPE::production"
@@ -72,9 +76,9 @@ jobs:
 
   build:
     needs: envjob
-    strategy:
-      matrix: ${{fromJson(needs.envjob.outputs.MATRIX)}}
     runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJson(needs.envjob.outputs.matrix)}}
     steps:
       - name: PRINT 1
         run: echo ${{ github.ref }}
