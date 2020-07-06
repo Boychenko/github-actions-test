@@ -34,10 +34,12 @@ jobs:
       - name: PRINT2
         run: echo $AKS_CLUSTER_RESOURCE_GROUP $AKS_CLUSTER_NAME
       - name: out
+        id: out
         run: |
           echo "::set-output name=AKS_CLUSTER_NAME::$AKS_CLUSTER_NAME"
-          echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::$AKS_CLUSTER_RESOURCE_GROUP"
+          echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::${{ AKS_CLUSTER_RESOURCE_GROUP }}"
           echo "::set-output name=BUILD_TYPE::$BUILD_TYPE"
+
   build:
     needs: envjob
     runs-on: ubuntu-latest
