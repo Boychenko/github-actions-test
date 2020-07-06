@@ -39,8 +39,7 @@ jobs:
       - name: Define matrix
         id: matrix
         run: |
-          matrix = "\"path\":["
-          arr=()
+          matrix="\"path\":["
           if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]; then
             matrix+="{\"basePath\": \"srcApp1/\", \"appName\":\"app1\"}"
           fi
