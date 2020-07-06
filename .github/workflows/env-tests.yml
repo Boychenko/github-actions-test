@@ -28,14 +28,14 @@ jobs:
           # inline YAML or path to separate file (e.g.: .github/filters.yaml)
           filters: |
             app1:
-              - "src/App1/**/*"
+              - 'src/App1/**/*'
             app2:
-              - "src/App2/**/*" 
+              - 'src/App2/**/*' 
       - name: Set production build type
-        if: endsWith(github.ref, "/master")
+        if: endsWith(github.ref, '/master')
         run: echo "::set-env name=BUILD_TYPE::production"
       - name: Set staging build type
-        if: endsWith(github.ref, "/develop")
+        if: endsWith(github.ref, '/develop')
         run: echo "::set-env name=BUILD_TYPE::staging"
       - name: Env variables
         uses: allenevans/set-env@v1.1.0
