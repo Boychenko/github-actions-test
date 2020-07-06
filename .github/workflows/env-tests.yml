@@ -22,9 +22,10 @@ jobs:
         if: endsWith(github.ref, '/develop')
         run: echo "::set-env name=BUILD_TYPE::staging"
       - name: Env variables
-        run: |
-          echo "::set-env name=AKS_CLUSTER_NAME::${{ env.BUILD_TYPE }}"
-          echo "::set-env name=AKS_CLUSTER_RESOURCE_GROUP::kubernetes-${{ env.BUILD_TYPE }}"
+        uses: allenevans/set-env@v1.1.0
+        with:
+          AKS_CLUSTER_NAME: ${{ env.BUILD_TYPE }}
+          AKS_CLUSTER_RESOURCE_GROUP: kubernetes-${{ env.BUILD_TYPE }}
       - name: PRINT
         run: echo ${{ github.ref }}
       - name: PRINT2
