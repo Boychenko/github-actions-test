@@ -17,8 +17,7 @@ jobs:
       AKS_CLUSTER_NAME: ${{ steps.out.outputs.AKS_CLUSTER_NAME }}
       AKS_CLUSTER_RESOURCE_GROUP: ${{ steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }}
       BUILD_TYPE: ${{ steps.out.outputs.BUILD_TYPE }}
-      # MATRIX: ${{ steps.matrix.outputs.MATRIX }}
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      MATRIX: ${{ steps.matrix.outputs.MATRIX }}
     steps:
       - name: PRINT
         env:
@@ -40,18 +39,16 @@ jobs:
       - name: Define matrix
         id: matrix
         run: |
-          matrix="\"include\":["
+          matrix="{\"include\":["
           if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]; then
             matrix+="{\"basePath\": \"srcApp1/\", \"appName\":\"app1\"}"
           fi
           if [[ "${{ steps.filter.outputs.app2 }}" == "true" ]]; then
             matrix+="{\"basePath\": \"srcApp2/\", \"appName\":\"app2\"}"
           fi
-          matrix+="]"
+          matrix+="]}"
           echo ${matrix}
           echo ::set-output name=MATRIX::${matrix}
-      - id: set-matrix
-        run: echo "::set-output name=matrix::{\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}"
       - name: Set production build type
         if: endsWith(github.ref, '/master')
         run: echo "::set-env name=BUILD_TYPE::production"
@@ -78,7 +75,7 @@ jobs:
     needs: envjob
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.envjob.outputs.matrix)}}
+      matrix: ${{fromJson(needs.envjob.outputs.MATRIX)}}
     steps:
       - name: PRINT 1
         run: echo ${{ github.ref }}
