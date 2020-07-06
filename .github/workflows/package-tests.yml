@@ -1,0 +1,14 @@
+name: Publish to nuget
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PRINT 1
+        env:
+          EVENT: ${{ toJson(event) }}
+        run: echo "$EVENT"
