@@ -41,10 +41,10 @@ jobs:
         run: |
           matrix="{\"include\":["
           if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]; then
-            matrix+="{\"basePath\": \"srcApp1/\", \"appName\":\"app1\"}"
+            matrix+="{\"basePath\": \"src/App1/\", \"appName\":\"app1\"},"
           fi
           if [[ "${{ steps.filter.outputs.app2 }}" == "true" ]]; then
-            matrix+="{\"basePath\": \"srcApp2/\", \"appName\":\"app2\"}"
+            matrix+="{\"basePath\": \"src/App2/\", \"appName\":\"app2\"},"
           fi
           matrix+="]}"
           echo ${matrix}
