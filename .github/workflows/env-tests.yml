@@ -18,11 +18,24 @@ jobs:
       AKS_CLUSTER_RESOURCE_GROUP: ${{ steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }}
       BUILD_TYPE: ${{ steps.out.outputs.BUILD_TYPE }}
     steps:
+      - name: PRINT
+        env:
+          EVENT: ${{ toJson(github.event) }}
+        run: echo "$EVENT"
+      - uses: dorny/paths-filter@v2.2.0
+        id: filter
+        with:
+          # inline YAML or path to separate file (e.g.: .github/filters.yaml)
+          filters: |
+            app1:
+              - "src/App1/**/*"
+            app2:
+              - "src/App2/**/*" 
       - name: Set production build type
-        if: endsWith(github.ref, '/master')
+        if: endsWith(github.ref, "/master")
         run: echo "::set-env name=BUILD_TYPE::production"
       - name: Set staging build type
-        if: endsWith(github.ref, '/develop')
+        if: endsWith(github.ref, "/develop")
         run: echo "::set-env name=BUILD_TYPE::staging"
       - name: Env variables
         uses: allenevans/set-env@v1.1.0
