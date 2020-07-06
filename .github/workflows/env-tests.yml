@@ -17,7 +17,7 @@ jobs:
       AKS_CLUSTER_NAME: ${{ steps.out.outputs.AKS_CLUSTER_NAME }}
       AKS_CLUSTER_RESOURCE_GROUP: ${{ steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }}
       BUILD_TYPE: ${{ steps.out.outputs.BUILD_TYPE }}
-      PATHES: ${{ steps.matrix.outputs.pathes }}
+      MATRIX: ${{ steps.matrix.outputs.MATRIX }}
     steps:
       - name: PRINT
         env:
@@ -32,19 +32,23 @@ jobs:
           filters: |
             app1:
               - 'src/App1/**/*'
+              - '.github/workflows/env-tests.yml'
             app2:
-              - 'src/App2/**/*' 
+              - 'src/App2/**/*'
+              - '.github/workflows/env-tests.yml'
       - name: Define matrix
         id: matrix
         run: |
+          matrix = "\"path\":["
           arr=()
           if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]; then
-            arr+=("app1")
+            matrix+="{\"basePath\": \"srcApp1/\", \"appName\":\"app1\"}"
           fi
           if [[ "${{ steps.filter.outputs.app2 }}" == "true" ]]; then
-            arr+=("app2")
+            matrix+="{\"basePath\": \"srcApp2/\", \"appName\":\"app2\"}"
           fi
-          echo ::set-output name=pathes::${arr[@]}
+          matrix+="]"
+          echo ::set-output name=MATRIX::${matrix}
       - name: Set production build type
         if: endsWith(github.ref, '/master')
         run: echo "::set-env name=BUILD_TYPE::production"
@@ -69,15 +73,16 @@ jobs:
 
   build:
     needs: envjob
-    # strategy:
-    #   matrix:
-    #     path: ${{ needs.envjob.outputs.PATHES }}
+    strategy:
+      matrix: ${{fromJson(needs.envjob.outputs.MATRIX)}}
     runs-on: ubuntu-latest
     steps:
       - name: PRINT 1
         run: echo ${{ github.ref }}
-      # - name: PRINT2
-      #   run: echo ${{ matrix.path }}
+      - name: PRINT2
+        env: 
+          DETAILS: ${{ toJson(matrix.path) }}
+        run: echo "$DETAILS"
       - name: PRINT3
         run: echo ${{ needs.envjob.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.outputs.BUILD_TYPE }}
       - name: PRINT 4
