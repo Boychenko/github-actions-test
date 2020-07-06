@@ -36,5 +36,5 @@ jobs:
       - name: PRINT
         run: echo ${{ github.ref }}
       - name: PRINT2
-        run: echo ${{ env.AKS_CLUSTER_RESOURCE_GROUP }} ${{ env.BUILD_TYPE }}
+        run: echo ${{ jobs.envjob.env.AKS_CLUSTER_RESOURCE_GROUP }} ${{ jobs.envjob.env.BUILD_TYPE }}
 
