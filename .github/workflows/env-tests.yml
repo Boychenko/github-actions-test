@@ -17,6 +17,7 @@ jobs:
       AKS_CLUSTER_NAME: ${{ steps.out.outputs.AKS_CLUSTER_NAME }}
       AKS_CLUSTER_RESOURCE_GROUP: ${{ steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }}
       BUILD_TYPE: ${{ steps.out.outputs.BUILD_TYPE }}
+      PATHES: ${{ steps.matrix.outputs.pathes }}
     steps:
       - name: PRINT
         env:
@@ -33,6 +34,17 @@ jobs:
               - 'src/App1/**/*'
             app2:
               - 'src/App2/**/*' 
+      - name: Define matrix
+        id: matrix
+        run: |
+          arr=()
+          if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]
+            arr+=("app1")
+          fi
+          if [[ "${{ steps.filter.outputs.app2 }}" == "true" ]]
+            arr+=("app2")
+          fi
+          echo ::set-output name=pathes::${arr[@]}
       - name: Set production build type
         if: endsWith(github.ref, '/master')
         run: echo "::set-env name=BUILD_TYPE::production"
@@ -57,13 +69,18 @@ jobs:
 
   build:
     needs: envjob
+    strategy:
+      matrix:
+        path: ${{ needs.envjob.outputs.PATHES }}
     runs-on: ubuntu-latest
     steps:
-      - name: PRINT
+      - name: PRINT 1
         run: echo ${{ github.ref }}
       - name: PRINT2
+        run: echo ${{ matrix.path }}
+      - name: PRINT3
         run: echo ${{ needs.envjob.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.outputs.BUILD_TYPE }}
-      - name: PRINT 3
+      - name: PRINT 4
         env: 
           JOB_OUT: ${{ toJson(needs.envjob) }}
         run: echo "$JOB_OUT"
