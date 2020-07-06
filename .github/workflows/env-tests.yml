@@ -45,6 +45,6 @@ jobs:
         run: echo ${{ needs.envjob.steps.out.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.steps.out.outputs.BUILD_TYPE }}
       - name: PRINT 3
         env: 
-          JOB_OUT: ${{ toJson(needs.envjob) }}
+          JOB_OUT: ${{ toJson(jobs.envjob) }}
         run: echo "$JOB_OUT"
 
