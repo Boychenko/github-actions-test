@@ -29,12 +29,12 @@ jobs:
       - name: PRINT
         run: echo ${{ github.ref }}
       - name: PRINT2
-        run: echo ${{ env.AKS_CLUSTER_RESOURCE_GROUP }} ${{ env.AKS_CLUSTER_NAME }}
+        run: echo $AKS_CLUSTER_RESOURCE_GROUP $AKS_CLUSTER_NAME
       - name: out
         run: |
-          echo "::set-output name=AKS_CLUSTER_NAME::${{ env.AKS_CLUSTER_NAME }}"
-          echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::${{ env.AKS_CLUSTER_RESOURCE_GROUP }}"
-          echo "::set-output name=BUILD_TYPE::${{ env.BUILD_TYPE }}"
+          echo "::set-output name=AKS_CLUSTER_NAME::$AKS_CLUSTER_NAME"
+          echo "::set-output name=AKS_CLUSTER_RESOURCE_GROUP::$AKS_CLUSTER_RESOURCE_GROUP"
+          echo "::set-output name=BUILD_TYPE::$BUILD_TYPE"
   build:
     needs: envjob
     runs-on: ubuntu-latest
