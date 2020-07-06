@@ -10,15 +10,8 @@ on:
       - "src/App2/**"
       - ".github/workflows/env-tests.yml"
 
-env:
-  BUILD_TYPE: TEST
-
 jobs:
-
   build:
-    env: 
-      AKS_CLUSTER_NAME: $BUILD_TYPE
-      AKS_CLUSTER_RESOURCE_GROUP: kubernetes-$BUILD_TYPE
     runs-on: ubuntu-latest
 
     steps:
