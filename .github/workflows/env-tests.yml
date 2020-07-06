@@ -39,7 +39,7 @@ jobs:
       - name: Define matrix
         id: matrix
         run: |
-          matrix="\"path\":["
+          matrix="\"include\":["
           if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]; then
             matrix+="{\"basePath\": \"srcApp1/\", \"appName\":\"app1\"}"
           fi
@@ -78,10 +78,10 @@ jobs:
     steps:
       - name: PRINT 1
         run: echo ${{ github.ref }}
-      - name: PRINT2
-        env: 
-          DETAILS: ${{ toJson(matrix.path) }}
-        run: echo "$DETAILS"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
       - name: PRINT3
         run: echo ${{ needs.envjob.outputs.AKS_CLUSTER_RESOURCE_GROUP }} ${{ needs.envjob.outputs.BUILD_TYPE }}
       - name: PRINT 4
