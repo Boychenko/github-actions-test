@@ -38,10 +38,10 @@ jobs:
         id: matrix
         run: |
           arr=()
-          if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]
+          if [[ "${{ steps.filter.outputs.app1 }}" == "true" ]]; then
             arr+=("app1")
           fi
-          if [[ "${{ steps.filter.outputs.app2 }}" == "true" ]]
+          if [[ "${{ steps.filter.outputs.app2 }}" == "true" ]]; then
             arr+=("app2")
           fi
           echo ::set-output name=pathes::${arr[@]}
