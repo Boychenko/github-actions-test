@@ -1,0 +1,25 @@
+name: "Env tests"
+
+on:
+  push:
+    branches:
+      - "master"
+      - "staging"
+    paths:
+      - "src/App1/**"
+      - "src/App2/**"
+      - "src/Likvido.DIInstaller/**"
+      - ".github/workflows/env-tests.yml"
+
+env:
+  BUILD_TYPE: TEST
+  AKS_CLUSTER_NAME: ${{ env.BUILD_TYPE }}
+  AKS_CLUSTER_RESOURCE_GROUP: kubernetes-${{ env.BUILD_TYPE }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: PRINT
+        run: echo ${{ AKS_CLUSTER_RESOURCE_GROUP }} ${{ env.BUILD_TYPE }}
