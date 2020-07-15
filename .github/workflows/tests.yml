@@ -17,13 +17,13 @@ jobs:
         with:
             dotnet-version: '3.1.x'
       - name: Test
-        run: dotnet test --logger:junit
+        run: dotnet test --logger:nunit
         working-directory: src/App1.Tests/
-      - name: Jest Github Action Reporter
-        uses: IgnusG/jest-report-action@v2.3.3
+
+      - uses: boychenko/nunit-reporter@v1.0.9
         if: always()
         with:
-          junit-file: src/App1.Tests/TestResults/TestResults.xml
+          path: src/App1.Tests/TestResults/*.xml
           access-token: ${{ secrets.GITHUB_TOKEN }}
 
       # - name: Publish Test Report
