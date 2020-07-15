@@ -17,18 +17,26 @@ jobs:
         with:
             dotnet-version: '3.1.x'
       - name: Test
-        run: dotnet test --logger:xunit
+        run: dotnet test --logger:nunit
         working-directory: src/App1.Tests/
-      - name: XUnit Viewer
-        id: xunit-viewer
-        if: ${{ always() }}
-        uses: AutoModality/action-xunit-viewer@v1  
+      - uses: MirrorNG/nunit-reporter@v1.0.9
+        if: always()
         with:
-          results: src/App1.Tests/TestResults/
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2
-        if: ${{ always() }}
-        with:
-          name: ${{ steps.xunit-viewer.outputs.report-name }}
-          path: ${{ steps.xunit-viewer.outputs.report-dir }}
+          path: src/App1.Tests/TestResults/*.xml
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Test
+      #   run: dotnet test --logger:xunit
+      #   working-directory: src/App1.Tests/
+      # - name: XUnit Viewer
+      #   id: xunit-viewer
+      #   if: ${{ always() }}
+      #   uses: AutoModality/action-xunit-viewer@v1  
+      #   with:
+      #     results: src/App1.Tests/TestResults/
+      # - name: Upload a Build Artifact
+      #   uses: actions/upload-artifact@v2
+      #   if: ${{ always() }}
+      #   with:
+      #     name: ${{ steps.xunit-viewer.outputs.report-name }}
+      #     path: ${{ steps.xunit-viewer.outputs.report-dir }}
 
