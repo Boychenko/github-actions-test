@@ -21,6 +21,7 @@ jobs:
         working-directory: src/App1.Tests/
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
+        if: ${{ always() }}
         with:
           name: test-results.trx
           path: src/App1.Tests/TestResults/*.trx
