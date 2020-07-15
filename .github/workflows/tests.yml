@@ -19,3 +19,9 @@ jobs:
       - name: Test
         run: dotnet test --logger:trx
         working-directory: src/App1.Tests/
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results.trx
+          path: src/App1.Tests/TestResults/*.trx
+
