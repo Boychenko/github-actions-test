@@ -19,12 +19,19 @@ jobs:
       - name: Test
         run: dotnet test --logger:junit
         working-directory: src/App1.Tests/
-      - name: Publish Test Report
+      - name: Jest Github Action Reporter
+        uses: IgnusG/jest-report-action@v2
         if: always()
-        uses: scacap/action-surefire-report@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          report_paths: src/App1.Tests/TestResults/*.xml
+          junit-file: src/App1.Tests/TestResults/*.xml
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # - name: Publish Test Report
+      #   if: always()
+      #   uses: scacap/action-surefire-report@v1
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     report_paths: src/App1.Tests/TestResults/*.xml
       # - uses: MirrorNG/nunit-reporter@v1.0.9
       #   if: always()
       #   with:
