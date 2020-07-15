@@ -20,6 +20,7 @@ jobs:
         run: dotnet test --logger:junit
         working-directory: src/App1.Tests/
       - name: Publish Test Report
+        if: always()
         uses: scacap/action-surefire-report@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
