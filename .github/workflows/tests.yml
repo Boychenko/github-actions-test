@@ -1,4 +1,4 @@
-name: "Env tests"
+name: "Test results"
 
 on:
   push:
@@ -17,12 +17,18 @@ jobs:
         with:
             dotnet-version: '3.1.x'
       - name: Test
-        run: dotnet test --logger:trx
+        run: dotnet test --logger:xunit
         working-directory: src/App1.Tests/
+      - name: XUnit Viewer
+        id: xunit-viewer
+        if: ${{ always() }}
+        uses: AutoModality/action-xunit-viewer@v1  
+        with:
+          results: src/App1.Tests/TestResults/
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
-          name: test-results.trx
-          path: src/App1.Tests/TestResults/*.trx
+          name: ${{ steps.xunit-viewer.outputs.report-name }}
+          path: ${{ steps.xunit-viewer.outputs.report-dir }}
 
