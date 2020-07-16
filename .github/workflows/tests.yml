@@ -20,7 +20,7 @@ jobs:
         run: dotnet test --logger:nunit
         working-directory: src/App1.Tests/
 
-      - uses: boychenko/nunit-reporter@v1.0.9
+      - uses: boychenko/nunit-reporter22@build
         if: always()
         with:
           path: src/App1.Tests/TestResults/*.xml
