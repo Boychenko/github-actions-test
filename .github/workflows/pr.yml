@@ -14,3 +14,5 @@ jobs:
         uses: actions/checkout@v2
       - name: EXECUTE
         uses: boychenko/actions/pr@master
+        with:
+          access-token: hi there
