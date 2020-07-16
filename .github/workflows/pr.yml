@@ -15,4 +15,4 @@ jobs:
       - name: EXECUTE
         uses: boychenko/actions/pr@master
         with:
-          access-token: hi there
+          access-token: ${{ secrets.GITHUB_TOKEN }}
