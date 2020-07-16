@@ -1,0 +1,16 @@
+name: "PR"
+
+on:
+  push:
+
+env:
+  WORKING_DIRECTORY: src/Test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v2
+      - name: EXECUTE
+        uses: boychenko/actions/pr@master
