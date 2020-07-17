@@ -5,7 +5,7 @@ on:
 
 env:
   WORKING_DIRECTORY: src
-  DOCKERFILE_PATH: DockerWorkerService/Dockerfile
+  DOCKERFILE_PATH: DockerWorkerService2/Dockerfile
   IMAGE_NAME: dcrtest
 
 jobs:
