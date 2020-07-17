@@ -5,7 +5,7 @@ on:
 
 env:
   WORKING_DIRECTORY: src
-  DOCKERFILE_PATH: DockerWorkerService2/Dockerfile
+  DOCKERFILE_PATH: DockerWorkerService/Dockerfile
   ACR_REGISTRY: likvido
   AKS_CLUSTER_NAME: tests
   APP_NAME: test
